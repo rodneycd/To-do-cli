@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,9 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     @Override
     public List<Task> getTasks(){
-        return new ArrayList<>(tasks);
+        return tasks.stream()
+                .sorted(Comparator.comparing(Task::getId))
+                .toList();
     }
 
     @Override

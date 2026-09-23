@@ -11,6 +11,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Comparator;
 
 @Repository
 @Profile("file")
@@ -78,6 +79,7 @@ public class FileTaskRepository implements TaskRepository {
     private void writeAll(List<Task> tasks) {
         try {
             List<String> lines = tasks.stream()
+                    .sorted(Comparator.comparing(Task::getId))
                     .map(t -> t.getId() + "|" + t.getDescription() + "|" + t.isCompleted())
                     .toList();
             Files.write(filePath, lines,
